@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple E-commerce</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: #333;
+      color: #fff;
+    }
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .product {
+      margin: 20px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+    }
+    .product h3 {
+      margin-top: 0;
+    }
+    .product button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    #cart-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    #cart-items {
+      list-style-type: none;
+      padding: 0;
+    }
+    #checkout-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Simple E-commerce</h1>
+      <a href="#" id="cart">Cart (0)</a>
+    </header>
+    <main id="product-list"></main>
+    <div id="cart-container" class="hidden">
+      <h2>Your Cart</h2>
+      <ul id="cart-items"></ul>
+      <button id="checkout-btn">Checkout</button>
+    </div>
+  </div>
+  <script>
+    const products = [
+      { id: 1, name: 'Product 1', price: 10 },
+      { id: 2, name: 'Product 2', price: 15 },
+      { id: 3, name: 'Product 3', price: 20 }
+    ];
+
+    const productList = document.getElementById('product-list');
+    const cartContainer = document.getElementById('cart-container');
+    const cartItems = document.getElementById('cart-items');
+    const checkoutBtn = document.getElementById('checkout-btn');
+    const cartLink = document.getElementById('cart');
+    let cart = [];
+
+    // Display products
+    function displayProducts() {
+      productList.innerHTML = '';
+      products.forEach(product => {
+        const productElement = document.createElement('div');
+        productElement.innerHTML = `
+          <h3>${product.name}</h3>
+          <p>Price: $${product.price}</p>
+          <button onclick="addToCart(${product.id})">Add to Cart</button>
+        `;
+        productList.appendChild(productElement);
+      });
+    }
+
+    // Add item to cart
+    function addToCart(productId) {
+      const product = products.find(item => item.id === productId);
+      cart.push(product);
+      updateCart();
+    }
+
+    // Update cart display
+    function updateCart() {
+      cartItems.innerHTML = '';
+      cart.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.name} - $${item.price}`;
+        cartItems.appendChild(li);
+      });
+      cartLink.textContent = `Cart (${cart.length})`;
+      cartContainer.classList.remove('hidden');
+    }
+
+    // Checkout (dummy function)
+    function checkout() {
+      alert('Checkout completed!');
+      cart = [];
+      updateCart();
+    }
+
+    // Event listeners
+    checkoutBtn.addEventListener('click', checkout);
+
+    // Initialize
+    displayProducts();
+  </script>
+</body>
+</html>
